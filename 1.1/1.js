@@ -9,7 +9,7 @@ function Products(ID, name, description, price, brand, activeSizes, quantity, re
     this.brand = brand;
     this.activeSizes = activeSizes;
     this.quantity = quantity;
-    this.reviews = reviews || [];
+    this.reviews = reviews;
     this.images = images;
 
     this.getID = function(){ 
@@ -66,7 +66,7 @@ function Products(ID, name, description, price, brand, activeSizes, quantity, re
         this.reviews.push(newReview);
     };
     this.getImage = function(imageID) {
-        if (imageID.length == 0) {return this.images[0]} else {return this.images[imageID]};
+        if (imageID === undefined) {return this.images[0]} else {return this.images[imageID]};
     };
     this.addImage = function(imageURL){ 
         this.images.push(imageURL);
@@ -82,9 +82,9 @@ function Products(ID, name, description, price, brand, activeSizes, quantity, re
             };
         };
     };
-    this.deleteReview = function(rule) {
-        for (let i = 0; i < this.reviews.length; i++) {
-                if (this.reviews[i] === rule) {
+    this.deleteReview = function(reviewID) {
+        for (i = 0; i < this.reviews.length; i++) {
+                if (this.reviews[i].ID === reviewID) {
                     this.reviews.splice(i, 1); 
                     break; 
                 };
@@ -92,30 +92,56 @@ function Products(ID, name, description, price, brand, activeSizes, quantity, re
     };
     this.getReviewByID = function(reviewID) {
         for (i of this.reviews) {
-            if (i.ID === reviewID){
-                return i;
-            }
+            if (i.ID === reviewID) {return i};
         };
     };
-
+    this.getAverageRating = function() {
+        let c = 0;
+        for (i of this.reviews) {
+            c += (i.rating.service + i.rating.value + i.rating.price + i.rating.quality) / 4;
+        };
+        return c;
+    };
 };
+
+let searchProducts = function(products, search1) {
+    let search = '';
+    let result = '';
+    let t = /^[a-z]$/i;
+    for (i of search1) {
+        if (t.test(i) === true) {search += i;}
+    };
+    for (i = 0; i < products.length; i++) { 
+        if (products[i].name.includes(search)) {result += products[i].name + '\n'};
+    };
+    return result;
+};
+let sortProducts = function(products, sortRule) {
+    if (sortRule === 'price') {
+        return products.sort((a,b) => a.price - b.price);
+    } else if (sortRule === 'ID') {
+        return products.sort((a,b) => a.ID - b.ID);
+    } else if (sortRule === 'name'){
+        return products.sort((a,b) => a.name - b.name);
+    };
+};
+
+
+function Review(ID, author, date, comment, rating) {
+    this.ID = ID;
+    this.author = author;
+    this.date = date;
+    this.comment = comment;
+    this.rating = rating;
+};
+
 
 let counterID = 3;
 
-/*Products(counterID,
-prompt('Type name of product: '), 
-prompt('Type description of product'), 
-prompt('Type price of product: '),
-prompt('Type brand of product: '), 
-prompt('Type available sizes of product: ', 'XS, S, M, L, XL, XXL'),
-prompt('Type count of available good: '),
-prompt('Type any review if you want to: '),
-prompt('Type an URL of image of object: '));*/
 
 Products();
-let product1 = new Products(1, 'susipatr', 'kit', 1.1, 'sirko', ['XXL', 'XL'], 1, {'ID': 1, 'author': 'CAT_1337', 'date': Date.now, 'comment': "meow meow meow meow", 'rating': 2}, ['test23, test48']);
-let product2 = new Products(2, 'arthur', 'author of code', Infinity, 'mama', ['M'], 1, {'ID': 2, 'author': 'saikomatyny', 'date': Date.now, 'comment': "i'm saikomatyny, AKA Arthur Kham", 'rating': 5}, ['test1, test2']);
-let product3 = new Products(3, 'artem', 'some arndom chelick', 0, 'idk', ['XS'], 200, {'ID': 3, 'author': 'artem2', 'date': Date.now, 'comment': "i'm artem", 'rating': 4.2}, []);
+let product1 = new Products(1, 'susipatr', 'kit', 1.1, 'sirko', ['XXL', 'XL'], 1, [new Review(1, 'CAT_1337', Date.now, "meow meow meow meow", {'service' : 2, 'value': 2, 'price': 3, 'quality': 4})], ['test23', 'test48']);
+let product2 = new Products(2, 'arthur', 'author of code', Infinity, 'mama', ['M'], 1, [new Review(1, 'saikomatyny', Date.now, "i'm saikomatyny, AKA Arthur Kham", {'service' : 5, 'value': 4, 'price': 4, 'quality': 5}), new Review(2, 'artem2', Date.now, "i'm artem", {'service' : 1, 'value': 2, 'price': 2, 'quality': 4})], ['test1', 'test2']);
+let product3 = new Products(3, 'artem', 'some arndom chelick', 0, 'idk', ['XS'], 200, [new Review(1, 'artem2', Date.now, "i'm artem", {'service' : 1, 'value': 2, 'price': 2, 'quality': 4})], []);
 
-console.log(getReviewByID(prompt()));
-
+console.log(sortProducts([product2, product3], 'ID'))
