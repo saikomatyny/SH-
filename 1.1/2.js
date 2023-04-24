@@ -8,7 +8,7 @@ let validatePhone = function(phone){
     if (phone.length > 25) {
         return false; 
     };
-    const check = /^(\+38|\-+|\s+?)?\s*?\(?\-*?\d\-*?\d\-*?\d\)?\s?(\d(\-|\s)*?){7}$/;
+    const check = /^(\+38|\-+|\s+?)?\s*?\(?\-*?\d\-*?\d\-*?\d\)?\s*?(\d(\-|\s)*?){7}$/;
     return check.test(phone);
 };
 
