@@ -386,7 +386,7 @@ let clothes1 = new Clothes(6, 'clothes1', 'kit', 1.1, 'sirko', ['XXL', 'XL'], 1,
 let electronics1 = new Electronics(7, 'aipxon', 'kit', 1.1, 'sirko', ['XXL', 'XL'], 1, [new Review(1, 'CAT_1337', Date.now, "meow meow meow meow", {'service' : 2, 'value': 2, 'price': 3, 'quality': 4})], ['test23', 'test48'], '10.10.2028', '220 W');
 
 
-let shop_banana_DPR_1 = new AbstractProduct(8, 'banan', 'smells like boy in shorts spirits', 200, 'Dushilin.INC', ['M', 'S'], 50000, [new Review(1, 'Maksim', '20.04.2023', 'thanks to the great leader the banana is delicious its fits', {'service' : 12, 'value' : 4.5, 'price' : 4.5, 'quality' : 5})], []);
+let shop_banana_DPR_1 = new AbstractProduct(8, 'banan', 'smells like teen spirits', 200, 'Dushilin.INC', ['M', 'S'], 50000, [new Review(1, 'Maksim', '20.04.2023', 'thanks to the great leader the banana is delicious its fits', {'service' : 12, 'value' : 4.5, 'price' : 4.5, 'quality' : 5})], []);
 /* 
 to test functions you need to type command in this format {in this brackets i'll show you what to type or some tips}:
 
