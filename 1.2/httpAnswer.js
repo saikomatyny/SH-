@@ -4,11 +4,13 @@ function readHttpLikeInput(){
 
 let contents = readHttpLikeInput();
 
-function outputHttpResponse(statusCode, statusMessage, headers_, body) {
+function outputHttpResponse(statusCode, statusMessage, not_parsed_headers, body) {
     let headers = '';
-    for (let key in headers_) {
-        headers += key + ' : ' +  headers_[key] + '\n';
-    };
+    not_parsed_headers['Content-Length'] = body.toString().length;
+    for (let key in not_parsed_headers) {
+        headers += key + ' : ' +  not_parsed_headers[key] + '\n';
+    }
+    
     console.log("HTTP/1.1 " + statusCode + " " + statusMessage + "\n" + headers + "\n" + body);
 }
 
@@ -40,17 +42,15 @@ function parseTcpStringAsHttpRequest(string) {
       method : string[0].split(' ')[0], 
       uri : string[0].split(' ')[1],
       headers : {
-        'Host' : string[1].split(' ')[1],
-        /*'Accept' : string[2].slice(8),
-        'Accept-Language' : string[3].slice(17),
-        'Accept-Encoding' : string[4].slice(17),
-        'User-Agent' : string[5].slice(12),
-        'Content-Length' : string[6].slice(16)*/
+        'Date' : new Date(),
+        'Server' : 'Apache/2.2.14 (Win32)',
+        'Content-Length' : 0,
+        'Connection' : 'Closed',
+        'Content-Type' : 'text/html; charset=utf-8',
       },
-      body : string[-1]
+      body : string[string.length - 1]
   }
 }
 
 http = parseTcpStringAsHttpRequest(contents);
 processHttpRequest(http.method, http.uri, http.headers, http.body);
-   
